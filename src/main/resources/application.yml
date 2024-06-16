@@ -1,0 +1,23 @@
+server:
+  port: 8081
+  include-binding-errors: always
+  include-message: always
+
+spring:
+  application:
+    name: todo-web-app
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/tasks
+    username: postgres
+    password: root
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
