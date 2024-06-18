@@ -29,4 +29,16 @@ public class Todo {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private boolean isCompleted;
+
+    public Todo(String title,
+                String description,
+                LocalDateTime createdAt,
+                LocalDateTime updatedAt,
+                boolean isCompleted) {
+        this.title = title;
+        this.description = description;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.isCompleted = isCompleted;
+    }
 }
