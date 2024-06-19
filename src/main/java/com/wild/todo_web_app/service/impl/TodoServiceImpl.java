@@ -1,6 +1,7 @@
 package com.wild.todo_web_app.service.impl;
 
 import com.wild.todo_web_app.exception.TodoNotFoundException;
+import com.wild.todo_web_app.model.Priority;
 import com.wild.todo_web_app.model.Todo;
 import com.wild.todo_web_app.repository.TodoRepository;
 import com.wild.todo_web_app.service.TodoService;
@@ -30,6 +31,11 @@ public class TodoServiceImpl implements TodoService {
     public Todo getTodoById(Long id) {
         return todoRepository.findById(id)
             .orElseThrow(() -> new TodoNotFoundException("Todo with ID " + id + " not found."));
+    }
+
+    @Override
+    public List<Todo> getTodosByPriority(Priority priority) {
+        return todoRepository.findTodosByPriority(priority);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.wild.todo_web_app.service;
 
 import com.wild.todo_web_app.exception.TodoNotFoundException;
+import com.wild.todo_web_app.model.Priority;
 import com.wild.todo_web_app.model.Todo;
 import com.wild.todo_web_app.repository.TodoRepository;
 import com.wild.todo_web_app.service.impl.TodoServiceImpl;
@@ -37,6 +38,7 @@ public class TodoServiceTest {
             1L,
             "Todo Test",
             "Description test",
+            Priority.LOW,
             LocalDateTime.now(),
             LocalDateTime.now(),
             false
@@ -56,6 +58,7 @@ public class TodoServiceTest {
                 1L,
                 "Todo Test 1",
                 "Description test 1",
+                Priority.MEDIUM,
                 LocalDateTime.now(),
                 LocalDateTime.now(),
                 false
@@ -64,6 +67,7 @@ public class TodoServiceTest {
                 2L,
                 "Todo Test 2",
                 "Description test 2",
+                Priority.LOW,
                 LocalDateTime.now(),
                 LocalDateTime.now(),
                 false
@@ -84,6 +88,7 @@ public class TodoServiceTest {
         Todo expectedTodo = new Todo(
             "Todo Test",
             "Description test",
+            Priority.VITAL,
             LocalDateTime.now(),
             LocalDateTime.now(),
             false
@@ -109,12 +114,75 @@ public class TodoServiceTest {
     }
 
     @Test
+    public void testFindTodosByPriority() {
+        LocalDateTime fixedDateTime = LocalDateTime.of(2024, 6, 19, 13, 0);
+
+        List<Todo> expectedTodos = Arrays.asList(
+            new Todo(
+                1L,
+                "Todo Test 1",
+                "Description test 1",
+                Priority.MEDIUM,
+                fixedDateTime,
+                fixedDateTime,
+                false
+            ),
+            new Todo(
+                2L,
+                "Todo Test 2",
+                "Description test 2",
+                Priority.LOW,
+                fixedDateTime,
+                fixedDateTime,
+                false
+            ),
+            new Todo(
+                3L,
+                "Todo Test 3",
+                "Description test 3",
+                Priority.LOW,
+                fixedDateTime,
+                fixedDateTime,
+                false
+            )
+        );
+
+        when(todoRepository.findTodosByPriority(Priority.LOW)).thenReturn(Arrays.asList(
+            new Todo(
+                2L,
+                "Todo Test 2",
+                "Description test 2",
+                Priority.LOW,
+                fixedDateTime,
+                fixedDateTime,
+                false
+            ),
+            new Todo(
+                3L,
+                "Todo Test 3",
+                "Description test 3",
+                Priority.LOW,
+                fixedDateTime,
+                fixedDateTime,
+                false
+            )
+        ));
+
+        List<Todo> actualTodos = todoService.getTodosByPriority(Priority.LOW);
+
+        assertEquals(2, actualTodos.size());
+        assertEquals(expectedTodos.get(1), actualTodos.getFirst());
+        assertEquals(expectedTodos.get(2), actualTodos.get(1));
+    }
+
+    @Test
     public void testUpdateTodoSuccess() {
         Long todoId = 1L;
 
         Todo existingTodo = new Todo(
             "Todo Test",
             "Description test",
+            Priority.HIGH,
             LocalDateTime.now(),
             LocalDateTime.now(),
             false
@@ -123,6 +191,7 @@ public class TodoServiceTest {
         Todo updatedTodo = new Todo(
             "Updated Todo Test",
             "Updated description test",
+            Priority.LOW,
             existingTodo.getCreatedAt(),
             LocalDateTime.now(),
             true
@@ -149,6 +218,7 @@ public class TodoServiceTest {
         Todo updatedTodo = new Todo(
             "Todo Test",
             "Description test",
+            Priority.HIGH,
             LocalDateTime.now(),
             LocalDateTime.now(),
             false
@@ -172,6 +242,7 @@ public class TodoServiceTest {
         Todo todo = new Todo(
             "Todo Test",
             "Description test",
+            Priority.LOW,
             LocalDateTime.now(),
             LocalDateTime.now(),
             false

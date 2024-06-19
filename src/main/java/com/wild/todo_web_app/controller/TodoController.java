@@ -1,5 +1,6 @@
 package com.wild.todo_web_app.controller;
 
+import com.wild.todo_web_app.model.Priority;
 import com.wild.todo_web_app.model.Todo;
 import com.wild.todo_web_app.service.impl.TodoServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -41,6 +43,13 @@ public class TodoController {
         Todo todo = todoService.getTodoById(id);
 
         return new ResponseEntity<>(todo, HttpStatus.OK);
+    }
+
+    @GetMapping("/priority")
+    public ResponseEntity<List<Todo>> getTodosByPriority(@RequestParam Priority priority) {
+        List<Todo> todos = todoService.getTodosByPriority(priority);
+
+        return new ResponseEntity<>(todos, HttpStatus.OK);
     }
 
     @PutMapping("{id}")

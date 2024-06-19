@@ -2,6 +2,7 @@ package com.wild.todo_web_app.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wild.todo_web_app.TodoWebAppApplication;
+import com.wild.todo_web_app.model.Priority;
 import com.wild.todo_web_app.model.Todo;
 import com.wild.todo_web_app.service.impl.TodoServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -51,6 +52,7 @@ public class TodoControllerTest {
         Todo todo = new Todo(
             "Todo Test",
             "Description test",
+            Priority.LOW,
             LocalDateTime.now(),
             LocalDateTime.now(),
             false
@@ -76,6 +78,7 @@ public class TodoControllerTest {
             new Todo(
                 "Todo Test 1",
                 "Description test 1",
+                Priority.LOW,
                 LocalDateTime.now(),
                 LocalDateTime.now(),
                 false
@@ -83,6 +86,7 @@ public class TodoControllerTest {
             new Todo(
                 "Todo Test 2",
                 "Description test 2",
+                Priority.VITAL,
                 LocalDateTime.now(),
                 LocalDateTime.now(),
                 false
@@ -106,6 +110,7 @@ public class TodoControllerTest {
         Todo todo = new Todo(
             "Todo Test",
             "Description test",
+            Priority.LOW,
             LocalDateTime.now(),
             LocalDateTime.now(),
             false
@@ -126,12 +131,51 @@ public class TodoControllerTest {
     }
 
     @Test
+    public void testFindTodoByPriorityApi() throws Exception {
+        Priority priority = Priority.LOW;
+
+        List<Todo> todos = Arrays.asList(
+            new Todo(
+                "Todo Test 1",
+                "Description test 1",
+                Priority.LOW,
+                LocalDateTime.now(),
+                LocalDateTime.now(),
+                false
+            ),
+            new Todo(
+                "Todo Test 2",
+                "Description test 2",
+                Priority.LOW,
+                LocalDateTime.now(),
+                LocalDateTime.now(),
+                false
+            )
+        );
+
+        when(todoService.getTodosByPriority(priority)).thenReturn(todos);
+
+        ResultActions response = mockMvc.perform(
+            get("/api/v1/todos/priority")
+                .param("priority", priority.toString())
+                .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        response.andExpect(status().isOk())
+            .andExpect(MockMvcResultMatchers.content()
+                .json(objectMapper.writeValueAsString(todos))
+            )
+            .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
     public void testUpdateTodoApi() throws Exception {
         Long todoId = 1L;
 
         Todo updatedTodo = new Todo(
             "Todo Test",
             "Description test",
+            Priority.LOW,
             LocalDateTime.now(),
             LocalDateTime.now(),
             false

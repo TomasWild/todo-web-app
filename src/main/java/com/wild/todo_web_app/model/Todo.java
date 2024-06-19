@@ -1,6 +1,8 @@
 package com.wild.todo_web_app.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,21 +24,29 @@ public class Todo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     @NotEmpty(message = "You must provide a title.")
     private String title;
+
     @Size(min = 3, max = 255, message = "Description must be between 3 and 255 characters.")
     private String description;
+
+    @Enumerated(EnumType.STRING)
+    private Priority priority;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private boolean isCompleted;
 
     public Todo(String title,
                 String description,
+                Priority priority,
                 LocalDateTime createdAt,
                 LocalDateTime updatedAt,
                 boolean isCompleted) {
         this.title = title;
         this.description = description;
+        this.priority = priority;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.isCompleted = isCompleted;
