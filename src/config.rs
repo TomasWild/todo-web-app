@@ -6,4 +6,6 @@ pub struct Config {
     pub server_host: IpAddr,
     #[clap(long, env = "SERVER_PORT", default_value = "3000")]
     pub server_port: u16,
+    #[clap(long, env = "DATABASE_URL")]
+    pub database_url: String,
 }
