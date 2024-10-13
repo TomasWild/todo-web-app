@@ -4,8 +4,8 @@ use axum::{
     routing::get,
     Router,
 };
-use tower::ServiceExt;
 use todo_web_app::api::handler::health_check::health_check;
+use tower::ServiceExt;
 
 fn app() -> Router {
     Router::new().route("/health_check", get(health_check))

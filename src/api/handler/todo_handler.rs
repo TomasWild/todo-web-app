@@ -1,3 +1,8 @@
+use crate::{
+    api::model::todo::{NewTodo, Todo, UpdateTodo},
+    db::AppState,
+    error::Error,
+};
 use axum::{
     extract::{Path, State},
     http::StatusCode,
@@ -6,11 +11,6 @@ use axum::{
 };
 use chrono::Utc;
 use uuid::Uuid;
-use crate::{
-    api::model::todo::{NewTodo, Todo, UpdateTodo},
-    error::Error,
-    utils::app_state::AppState,
-};
 
 pub async fn create_todo(
     State(state): State<AppState>,

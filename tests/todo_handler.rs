@@ -8,14 +8,14 @@ use axum::{
 use serde_json::from_slice;
 use sqlx::PgPool;
 use testcontainers_modules::{postgres::Postgres, testcontainers::runners::AsyncRunner};
-use uuid::Uuid;
 use todo_web_app::{
     api::{
         handler::todo_handler::{create_todo, delete_todo, find_all_todos, find_todo_by_id, update_todo},
         model::todo::{NewTodo, Todo, UpdateTodo},
     },
-    utils::app_state::AppState,
+    db::AppState,
 };
+use uuid::Uuid;
 
 #[tokio::test]
 async fn test_create_todo() {
